@@ -7,7 +7,7 @@
     "postinstall": "npm run install:apps",
     "install:apps": "./apps_install.sh",
     "pretest": "(cd ./app/backend && /bin/sh tsc_eval.sh)",
-    "test": "env $(cat ./app/backend/.env) jest -i --forceExit --verbose --testTimeout=7200000 --silent=false",
+    "test": "env $(cat ./app/backend/.env) jest -i --forceExit --verbose --testTimeout=7200000",
     "test:browser": "SHOW_BROWSER=true npm test",
     "test:debug": "DEBUG=true npm test",
     "compose:up": "(cd app && docker-compose up -d --build)",
