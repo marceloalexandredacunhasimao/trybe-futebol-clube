@@ -1,10 +1,7 @@
 import UserController from './User.controller';
-
-function consertaLinter(value: number): number {
-  return -value;
-}
+import TeamController from './Team.controller';
 
 export {
-  consertaLinter,
   UserController,
+  TeamController,
 };

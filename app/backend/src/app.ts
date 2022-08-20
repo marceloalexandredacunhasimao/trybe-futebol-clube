@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { UserController } from './controllers';
+import { UserController, TeamController } from './controllers';
 
 class App {
   public app: express.Express;
@@ -13,6 +13,9 @@ class App {
     this.app.get('/', (req, res) => res.json({ ok: true }));
     this.app.post('/login', UserController.login);
     this.app.get('/login/validate', UserController.validate);
+
+    this.app.get('/teams', TeamController.findAll);
+    this.app.get('/teams/:id', TeamController.findById);
   }
 
   private config():void {
