@@ -18,6 +18,7 @@ class App {
     this.app.get('/teams/:id', TeamController.findById);
 
     this.app.get('/matches', MatchController.findByProgressStatus);
+    //    this.app.post('/matches', MatchController.create);
   }
 
   private config():void {

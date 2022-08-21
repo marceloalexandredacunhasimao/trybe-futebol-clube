@@ -1,6 +1,14 @@
-interface IConsertaLinter {
-  value: number;
-  text: string;
+import Team from '../database/models/Team.model';
+
+interface IDetailedMatch {
+  id: number;
+  homeTeam: number;
+  homeTeamGoals: number;
+  awayTeam: number;
+  awayTeamGoals: number;
+  inProgress: boolean;
+  teamHome: Team | null;
+  teamAway: Team | null;
 }
 
 interface ITokenData {
@@ -11,6 +19,6 @@ interface ITokenData {
 }
 
 export {
-  IConsertaLinter,
+  IDetailedMatch,
   ITokenData,
 };

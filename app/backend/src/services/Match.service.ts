@@ -1,14 +1,34 @@
 // import * as bcrypt from 'bcryptjs';
 // import User from '../database/models/User.model';
 import Match from '../database/models/Match.model';
+import Team from '../database/models/Team.model';
+import { IDetailedMatch } from '../interfaces';
 
 class MatchService {
-  static async findAll(): Promise<Match[]> {
-    return Match.findAll();
+  static async detailedMatch(match: Match): Promise<IDetailedMatch> {
+    const teamHome = await Team.findOne(
+      { where: { id: match.homeTeam }, attributes: ['teamName'], raw: true },
+    );
+    const teamAway = await Team.findOne(
+      { where: { id: match.awayTeam }, attributes: ['teamName'], raw: true },
+    );
+    return {
+      ...match,
+      teamHome,
+      teamAway,
+    };
   }
 
-  static async findByProgressStatus(inProgress: boolean) {
-    return Match.findAll({ where: { inProgress } });
+  static async findAll(): Promise<IDetailedMatch[]> {
+    const matches = await Match.findAll({ raw: true });
+    const promises = matches.map(async (match) => MatchService.detailedMatch(match));
+    return Promise.all(promises);
+  }
+
+  static async findByProgressStatus(inProgress: boolean): Promise<IDetailedMatch[]> {
+    const matches = await Match.findAll({ where: { inProgress }, raw: true });
+    const promises = matches.map(async (match) => MatchService.detailedMatch(match));
+    return Promise.all(promises);
   }
   /*
   static async findById(id: string): Promise<Match | null> {
