@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { UserController, TeamController } from './controllers';
+import { UserController, TeamController, MatchController } from './controllers';
 
 class App {
   public app: express.Express;
@@ -16,6 +16,8 @@ class App {
 
     this.app.get('/teams', TeamController.findAll);
     this.app.get('/teams/:id', TeamController.findById);
+
+    this.app.get('/matches', MatchController.findByProgressStatus);
   }
 
   private config():void {
