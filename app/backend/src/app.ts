@@ -1,5 +1,6 @@
 import * as express from 'express';
 import { UserController, TeamController, MatchController } from './controllers';
+import authMiddleware from './middlewares/auth';
 
 class App {
   public app: express.Express;
@@ -18,7 +19,8 @@ class App {
     this.app.get('/teams/:id', TeamController.findById);
 
     this.app.get('/matches', MatchController.findByProgressStatus);
-    //    this.app.post('/matches', MatchController.create);
+    this.app.post('/matches', authMiddleware, MatchController.create);
+    this.app.patch('/matches/:id/finish', MatchController.finish);
   }
 
   private config():void {

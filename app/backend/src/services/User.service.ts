@@ -26,7 +26,7 @@ class UserService {
     if (!data) return { status, message, role: '' };
     const { email } = data.payload.data;
     const user = await User.findOne({ where: { email }, raw: true });
-    if (!user) return { status: 401, message: 'Invalid token', role: '' };
+    if (!user) return { status: 401, message: 'Token must be a valid token', role: '' };
     return { status: 200, message: '', role: user.role };
   }
 }

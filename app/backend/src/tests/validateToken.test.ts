@@ -27,13 +27,13 @@ describe('Testa rota de validação do token "GET /login/validate"', () => {
     it('Retorna um error se o token não for informado', async() => {
       const res = await chai.request(app).get('/login/validate');
       expect(res).to.have.status(401);
-      expect(res.body).to.have.property('message', 'Invalid token');
+      expect(res.body).to.have.property('message', 'Token must be a valid token');
     });
     it('Retorna um error se não existe um usuário para o token especificado', async() => {
       const res = await chai.request(app)
         .get('/login/validate').auth(readmeToken, { type: 'bearer' });
       expect(res).to.have.status(401);
-      expect(res.body).to.have.property('message', 'Invalid token');
+      expect(res.body).to.have.property('message', 'Token must be a valid token');
     });
   });
   describe('O token é válido', () => {

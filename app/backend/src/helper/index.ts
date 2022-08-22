@@ -21,14 +21,14 @@ function validateLogin(email: string | undefined, password: string | undefined):
 
 function getTokenData(auth: string | undefined):
 { status: number, message: string, data: Jwt | null } {
-  if (!auth) return { status: 401, message: 'Invalid token', data: null };
+  if (!auth) return { status: 401, message: 'Token must be a valid token', data: null };
   let token = auth;
   if (token.includes('Bearer')) [, token] = auth.split(' ');
   try {
     const data = verify(token, secret, { complete: true }) as Jwt;
     return { status: 0, message: '', data };
   } catch (err) {
-    return { status: 401, message: 'Invalid token', data: null };
+    return { status: 401, message: 'Token must be a valid token', data: null };
   }
 }
 

@@ -17,13 +17,23 @@ class MatchController {
     const matchs = await MatchService.findByProgressStatus(inProgress === 'true');
     res.status(200).json(matchs);
   }
-/*
-  static async findById(req: Request, res: Response): Promise<void> {
-    const { id } = req.params;
-    const team = await MatchService.findById(id);
-    res.status(200).json(team);
+
+  static async create(req: Request, res: Response): Promise<void> {
+    // const { homeTeam, awayTeam, homeTeamGoals, awayTeamGoals } = req.body;
+    const { status, message, match } = await MatchService.create(req.body);
+    //      .create(homeTeam, awayTeam, homeTeamGoals, awayTeamGoals);
+    if (message !== '') {
+      res.status(status).json({ message });
+    } else {
+      res.status(201).json(match);
+    }
   }
-*/
+
+  static async finish(req: Request, res: Response): Promise<void> {
+    const { id } = req.params;
+    MatchService.finish(Number(id));
+    res.status(200).json({ message: 'Finished' });
+  }
 }
 
 export default MatchController;
