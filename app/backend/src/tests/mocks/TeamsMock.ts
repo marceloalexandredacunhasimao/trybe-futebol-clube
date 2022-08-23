@@ -63,6 +63,6 @@ const teamsMock = [
         id: 16,
         teamName: "São Paulo"
     }
-]
+];
 
 export default teamsMock;

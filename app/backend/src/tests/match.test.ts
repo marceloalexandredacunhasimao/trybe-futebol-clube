@@ -33,6 +33,20 @@ describe('Testa rota de partidas "GET /matches"', () => {
       expect(res).to.have.status(200);
       expect(res.body).to.be.eql(matchesMockResults);
   });
+  it('Testa se a rota /matches/?inProgress=false filtra partidas finalizadas', async () => {
+      sinon.stub(Match, 'findAll')
+        .resolves(matchesMock.filter(({inProgress}) => ! inProgress) as Match[]);
+      const res = await chai.request(app).get('/matches/?inProgress=false');
+      expect(res).to.have.status(200);
+      expect(res.body).to.be.eql(matchesMockResults.filter(({inProgress}) => ! inProgress));
+    });
+  it('Testa se a rota /matches/?inProgress=true filtra partidas em andamento', async () => {
+      sinon.stub(Match, 'findAll')
+        .resolves(matchesMock.filter(({inProgress}) => inProgress) as Match[]);
+      const res = await chai.request(app).get('/matches/?inProgress=false');
+      expect(res).to.have.status(200);
+      expect(res.body).to.be.eql(matchesMockResults.filter(({inProgress}) => inProgress));
+    });
 });
 
 describe('Testa rota de partidas "POST /matches"', () => {
