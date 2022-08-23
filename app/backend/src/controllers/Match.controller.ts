@@ -34,6 +34,12 @@ class MatchController {
     MatchService.finish(Number(id));
     res.status(200).json({ message: 'Finished' });
   }
+
+  static async update(req: Request, res: Response): Promise<void> {
+    const { id } = req.params;
+    MatchService.update(Number(id), req.body);
+    res.status(200).json({ message: 'Updated' });
+  }
 }
 
 export default MatchController;

@@ -18,15 +18,40 @@ interface ITokenData {
   id: number;
 }
 
-interface IMatch {
-  homeTeam: number;
-  awayTeam: number;
+interface IGoals {
   homeTeamGoals: number;
   awayTeamGoals: number;
+}
+
+interface IMatch extends IGoals {
+  homeTeam: number;
+  awayTeam: number;
+}
+
+interface IGameResult {
+  totalPoints: number;
+  goalsFavor: number;
+  goalsOwn: number;
+}
+
+interface ITeamResults {
+  name: string;
+  totalGames: number;
+  totalPoints: number;
+  totalVictories: number;
+  totalDraws: number;
+  totalLosses: number;
+  goalsFavor: number;
+  goalsOwn: number;
+  goalsBalance: number;
+  efficiency: number;
 }
 
 export {
   IDetailedMatch,
   ITokenData,
+  IGoals,
   IMatch,
+  IGameResult,
+  ITeamResults,
 };

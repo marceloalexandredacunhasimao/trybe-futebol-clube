@@ -1,5 +1,10 @@
 import * as express from 'express';
-import { UserController, TeamController, MatchController } from './controllers';
+import {
+  UserController,
+  TeamController,
+  MatchController,
+  LeaderboardController,
+} from './controllers';
 import authMiddleware from './middlewares/auth';
 
 class App {
@@ -21,6 +26,11 @@ class App {
     this.app.get('/matches', MatchController.findByProgressStatus);
     this.app.post('/matches', authMiddleware, MatchController.create);
     this.app.patch('/matches/:id/finish', MatchController.finish);
+    this.app.patch('/matches/:id', MatchController.update);
+
+    this.app.get('/leaderboard/home', LeaderboardController.findAllHome);
+    this.app.get('/leaderboard/away', LeaderboardController.findAllAway);
+    this.app.get('/leaderboard', LeaderboardController.findAll);
   }
 
   private config():void {
