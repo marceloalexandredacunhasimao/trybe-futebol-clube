@@ -19,9 +19,7 @@ class MatchController {
   }
 
   static async create(req: Request, res: Response): Promise<void> {
-    // const { homeTeam, awayTeam, homeTeamGoals, awayTeamGoals } = req.body;
     const { status, message, match } = await MatchService.create(req.body);
-    //      .create(homeTeam, awayTeam, homeTeamGoals, awayTeamGoals);
     if (message !== '') {
       res.status(status).json({ message });
     } else {

@@ -3,14 +3,11 @@ import * as chai from 'chai';
 // @ts-ignore
 import chaiHttp = require('chai-http');
 import { app } from '../app';
-//import Example from '../database/models/ExampleModel';
-//import User from '../database/models/User.model';
+
 import Team from '../database/models/Team.model';
 import Match from '../database/models/Match.model';
 import UserService from '../services/User.service';
 
-import { Response } from 'superagent';
-//import { UsersMock, logins } from './mocks/UsersMock';
 import { matchesMock, newMatchMocks, matchesMockResults } from './mocks/MatchesMock';
 import teamsMock from './mocks/TeamsMock';
 
@@ -19,7 +16,6 @@ chai.use(chaiHttp);
 const { expect } = chai;
 
 
-//sinon.stub(User, 'findOne').resolves(null);
 const teamsAreEqual = 'It is not possible to create a match with two equal teams';
 const teamDontExists = 'There is no team with such id!';
 const invalidToken = 'Token must be a valid token';
@@ -51,11 +47,6 @@ describe('Testa rota de partidas "GET /matches"', () => {
 
 describe('Testa rota de partidas "POST /matches"', () => {
   describe('Os dados da nova partida são inválidos', () => {
-    /*beforeEach(() => {
-      sinon.restore();
-      sinon.stub(Team, 'findOne').resolves(teamsMock[0] as Team);
-      sinon.stub(UserService, 'validate').resolves({ status: 0, message: '', role: 'admin' });
-    });*/
     it('Retorna um error se os dois times da partida forem iguais', async() => {
       sinon.stub(Team, 'findOne').resolves(teamsMock[0] as Team);
       sinon.stub(UserService, 'validate').resolves({ status: 0, message: '', role: 'admin' });

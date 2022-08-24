@@ -7,7 +7,6 @@ async function authMiddleware(req: Request, res: Response, next: NextFunction) {
   if (message !== '') {
     res.status(status).json({ message });
   } else {
-    // res.status(status).json({ role });
     next();
   }
 }

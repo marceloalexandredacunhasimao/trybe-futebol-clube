@@ -16,7 +16,7 @@ class UserService {
     if (!await bcrypt.compare(password, user.password)) {
       return { status: 401, message: 'Incorrect email or password', token: '' };
     }
-    const token = makeToken(user); // makeToken({ email, username, role, id });
+    const token = makeToken(user);
     return { status: 200, message: '', token };
   }
 

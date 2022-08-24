@@ -1,5 +1,3 @@
-// import * as bcrypt from 'bcryptjs';
-// import User from '../database/models/User.model';
 import Match from '../database/models/Match.model';
 import Team from '../database/models/Team.model';
 import { IDetailedMatch, IGoals, IMatch } from '../interfaces';
@@ -63,7 +61,7 @@ class MatchService {
   }
 
   static async finish(id: number): Promise<void> {
-    await Match.upsert({ id, inProgress: false }); // update({ inProgress: false }, { where: { id } });
+    await Match.upsert({ id, inProgress: false });
   }
 
   static async update(id: number, goals: IGoals): Promise<void> {
