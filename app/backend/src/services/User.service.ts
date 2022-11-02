@@ -1,33 +1,27 @@
 import * as bcrypt from 'bcryptjs';
 import User from '../database/models/User.model';
-import { validateLogin, makeToken, getTokenData } from '../helper';
+import { validateLogin, makeToken, getTokenData, HttpError } from '../helper';
 
 class UserService {
-  static async login(email: string, password: string):
-  Promise<{ status: number, message: string, token: string }> {
-    const { status, message } = validateLogin(email, password);
-    if (message !== '') {
-      return { status, message, token: '' };
-    }
+  static async login(email: string, password: string): Promise<string> {
+    validateLogin(email, password);
     const user = await User.findOne({ where: { email }, raw: true });
     if (!user) {
-      return { status: 401, message: 'Incorrect email or password', token: '' };
+      throw new HttpError('Incorrect email or password', 401);
     }
     if (!await bcrypt.compare(password, user.password)) {
-      return { status: 401, message: 'Incorrect email or password', token: '' };
+      throw new HttpError('Incorrect email or password', 401);
     }
-    const token = makeToken(user); // makeToken({ email, username, role, id });
-    return { status: 200, message: '', token };
+    const token = makeToken(user);
+    return token;
   }
 
-  static async validate(auth: string | undefined):
-  Promise<{ status: number, message: string, role: string }> {
-    const { status, message, data } = getTokenData(auth);
-    if (!data) return { status, message, role: '' };
+  static async validate(auth: string | undefined): Promise<string> {
+    const data = getTokenData(auth);
     const { email } = data.payload.data;
     const user = await User.findOne({ where: { email }, raw: true });
-    if (!user) return { status: 401, message: 'Token must be a valid token', role: '' };
-    return { status: 200, message: '', role: user.role };
+    if (!user) throw new HttpError('Token must be a valid token', 401);
+    return user.role;
   }
 }
 

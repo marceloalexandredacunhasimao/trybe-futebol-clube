@@ -1,14 +1,15 @@
 import { Request, Response, NextFunction } from 'express';
 import UserService from '../services/User.service';
+import { HttpError } from '../helper';
 
 async function authMiddleware(req: Request, res: Response, next: NextFunction) {
   const auth = req.headers.authorization;
-  const { status, message } = await UserService.validate(auth);
-  if (message !== '') {
-    res.status(status).json({ message });
-  } else {
-    // res.status(status).json({ role });
+  try {
+    await UserService.validate(auth);
     next();
+  } catch (err) {
+    const error = err as HttpError;
+    res.status(error.httpStatus).json({ message: error.message });
   }
 }
 

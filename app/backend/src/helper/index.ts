@@ -3,6 +3,14 @@ import { ITokenData } from '../interfaces';
 
 const secret = process.env.JWT_SECRET || 'jwt_secret';
 
+class HttpError extends Error {
+  public httpStatus: number;
+  constructor(message: string, httpStatus: number) {
+    super(message);
+    this.httpStatus = httpStatus;
+  }
+}
+
 function makeToken(data: ITokenData) {
   const config: SignOptions = {
     expiresIn: '365d',
@@ -12,23 +20,21 @@ function makeToken(data: ITokenData) {
 }
 
 function validateLogin(email: string | undefined, password: string | undefined):
-{ status: number, message: string } {
+void {
   if (!email || !password) {
-    return { status: 400, message: 'All fields must be filled' };
+    throw new HttpError('All fields must be filled', 400);
   }
-  return { status: 0, message: '' };
 }
 
-function getTokenData(auth: string | undefined):
-{ status: number, message: string, data: Jwt | null } {
-  if (!auth) return { status: 401, message: 'Token must be a valid token', data: null };
+function getTokenData(auth: string | undefined): Jwt {
+  if (!auth) throw new HttpError('Token must be a valid token', 401);
   let token = auth;
   if (token.includes('Bearer')) [, token] = auth.split(' ');
   try {
     const data = verify(token, secret, { complete: true }) as Jwt;
-    return { status: 0, message: '', data };
+    return data;
   } catch (err) {
-    return { status: 401, message: 'Token must be a valid token', data: null };
+    throw new HttpError('Token must be a valid token', 401);
   }
 }
 
@@ -36,4 +42,5 @@ export {
   makeToken,
   validateLogin,
   getTokenData,
+  HttpError,
 };

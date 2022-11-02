@@ -1,11 +1,9 @@
 import * as express from 'express';
-import {
-  UserController,
-  TeamController,
-  MatchController,
-  LeaderboardController,
-} from './controllers';
-import authMiddleware from './middlewares/auth';
+import loginRoute from './routes/Login.route';
+import teamRoute from './routes/Team.route';
+import matchRoute from './routes/Match.route';
+import leaderboardRoute from './routes/Leaderboard.route';
+import errorMiddleware from './middlewares/errorMiddleware';
 
 class App {
   public app: express.Express;
@@ -17,20 +15,11 @@ class App {
 
     // Não remover essa rota
     this.app.get('/', (req, res) => res.json({ ok: true }));
-    this.app.post('/login', UserController.login);
-    this.app.get('/login/validate', UserController.validate);
-
-    this.app.get('/teams', TeamController.findAll);
-    this.app.get('/teams/:id', TeamController.findById);
-
-    this.app.get('/matches', MatchController.findByProgressStatus);
-    this.app.post('/matches', authMiddleware, MatchController.create);
-    this.app.patch('/matches/:id/finish', MatchController.finish);
-    this.app.patch('/matches/:id', MatchController.update);
-
-    this.app.get('/leaderboard/home', LeaderboardController.findAllHome);
-    this.app.get('/leaderboard/away', LeaderboardController.findAllAway);
-    this.app.get('/leaderboard', LeaderboardController.findAll);
+    this.app.use('/leaderboard', leaderboardRoute);
+    this.app.use('/login', loginRoute);
+    this.app.use('/matches', matchRoute);
+    this.app.use('/teams', teamRoute);
+    this.app.use(errorMiddleware);
   }
 
   private config():void {

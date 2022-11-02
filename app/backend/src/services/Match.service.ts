@@ -1,8 +1,7 @@
-// import * as bcrypt from 'bcryptjs';
-// import User from '../database/models/User.model';
 import Match from '../database/models/Match.model';
 import Team from '../database/models/Team.model';
 import { IDetailedMatch, IGoals, IMatch } from '../interfaces';
+import { HttpError } from '../helper';
 
 class MatchService {
   static async detailedMatch(match: Match): Promise<IDetailedMatch> {
@@ -19,24 +18,16 @@ class MatchService {
     };
   }
 
-  static async checkNewMatch(homeTeam: number, awayTeam: number):
-  Promise<{ status: number, message: string }> {
+  static async checkNewMatch(homeTeam: number, awayTeam: number) {
     if (homeTeam === awayTeam) {
-      return {
-        status: 401,
-        message: 'It is not possible to create a match with two equal teams',
-      };
+      throw new HttpError('It is not possible to create a match with two equal teams', 401);
     }
     if (
       !await Team.findOne({ where: { id: homeTeam } })
       || !await Team.findOne({ where: { id: awayTeam } })
     ) {
-      return {
-        status: 404,
-        message: 'There is no team with such id!',
-      };
+      throw new HttpError('There is no team with such id!', 404);
     }
-    return { status: 0, message: '' };
   }
 
   static async findAll(): Promise<IDetailedMatch[]> {
@@ -51,19 +42,17 @@ class MatchService {
     return Promise.all(promises);
   }
 
-  static async create(newMatch: IMatch):
-  Promise<{ status: number, message: string, match: Match | null }> {
+  static async create(newMatch: IMatch): Promise<Match> {
     const { homeTeam, awayTeam, homeTeamGoals, awayTeamGoals } = newMatch;
-    const { status, message } = await MatchService.checkNewMatch(homeTeam, awayTeam);
-    if (message !== '') return { status, message, match: null };
+    await MatchService.checkNewMatch(homeTeam, awayTeam);
     const match = await Match.create({
       homeTeam, awayTeam, homeTeamGoals, awayTeamGoals, inProgress: true,
     });
-    return { status: 0, message: '', match };
+    return match;
   }
 
   static async finish(id: number): Promise<void> {
-    await Match.upsert({ id, inProgress: false }); // update({ inProgress: false }, { where: { id } });
+    await Match.upsert({ id, inProgress: false });
   }
 
   static async update(id: number, goals: IGoals): Promise<void> {
