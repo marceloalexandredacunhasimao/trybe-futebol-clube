@@ -8,7 +8,7 @@ Neste projeto foi implementado um back-end dockerizado utilizando modelagem de d
 
 Com o Trybe Futebol Clube é possível adicionar, finalizar e editar partidas, consultar placares e classificação. Foram implementados diferentes níveis de acesso, de modo que o usuário comum pode fazer consultas, mas para fazer alterações como criar, editar e finalizar partidas é necessário fazer login como administrador.
 
-Para implementar o projeto foram utizados conceitos de Docker, Node.js, TypeScript, Express e Sequelize. O projeto foi implementado utilizadando a arquitetura MSC e para fazer as validações das senhas criptografadas do banco de dados foi utilizada a bilioteca JWT. O frontend e os arquivos .yml, .sql, .sh deste projeto foram fornecidos pela trybe. Os testes unitários foram desenvolvidos utilizando Mocha, Chai e Sinon.
+Para implementar o projeto foram utilizados conceitos de Docker, Node.js, TypeScript, Express e Sequelize. O projeto foi implementado utilizadando a arquitetura MSC e para fazer as validações das senhas criptografadas do banco de dados foi utilizada a biblioteca JWT. O frontend e os arquivos .yml, .sql, .sh deste projeto foram fornecidos pela Trybe. Os testes unitários foram desenvolvidos utilizando Mocha, Chai e Sinon.
 
 ## Configurações mínimas para execução do projeto
 
@@ -30,6 +30,6 @@ Inicialize a execução do projeto:
     cd trybe-futebol-clube
     npm run compose:up
 
-O funcionamento do projeto pode ser verificado inserindo o endeço http://127.0.0.1/3000 no navegador ou por meio de requisições feitas diretamente para o back-end na porta 3001.
+O funcionamento do projeto pode ser verificado inserindo o endereço http://127.0.0.1/3000 no navegador ou por meio de requisições feitas diretamente para o back-end na porta 3001.
 
-O banco de dados é pre-populado com dois usuários para testes. Para fazer login como administrador utilize o e-mail "admin@admin.com" e a senha "secret_admin", para fazer login como usuário comum utilize o e-mail "user@user.com" e senha "secret_user".
+O banco de dados é pré-populado com dois usuários para testes. Para fazer login como administrador utilize o e-mail "admin@admin.com" e a senha "secret_admin", para fazer login como usuário comum utilize o e-mail "user@user.com" e senha "secret_user".
