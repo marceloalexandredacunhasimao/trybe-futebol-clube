@@ -30,6 +30,6 @@ Inicialize a execução do projeto:
     cd trybe-futebol-clube
     npm run compose:up
 
-O funcionamento do projeto pode ser verificado inserindo o endereço http://127.0.0.1/3000 no navegador ou por meio de requisições feitas diretamente para o back-end na porta 3001.
+O funcionamento do projeto pode ser verificado inserindo o endereço http://127.0.0.1:3000 no navegador ou por meio de requisições feitas diretamente para o back-end na porta 3001.
 
 O banco de dados é pré-populado com dois usuários para testes. Para fazer login como administrador utilize o e-mail "admin@admin.com" e a senha "secret_admin", para fazer login como usuário comum utilize o e-mail "user@user.com" e senha "secret_user".
