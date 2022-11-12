@@ -23,7 +23,7 @@ Na sua máquina deve ter:
 
 Faça o clone do projeto:
 
-    git clone git@github.com:marceloalexandredacunhasimao/trybe-futebol-clube.git
+    git clone https://github.com/marceloalexandredacunhasimao/trybe-futebol-clube.git
 
 Inicialize a execução do projeto:
 
